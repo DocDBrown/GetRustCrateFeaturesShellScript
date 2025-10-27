@@ -1,4 +1,7 @@
 # Shell Script to check crates.io features
+
+example usage "./crates-features.sh serde tokio anyhow tracing"
+
 ## Created so you can check what features there are for the crates you need
 
 1. Create a shell script that accepts crate names as input, fetches each crate’s newest version from the crates.io API, retrieves that version’s metadata, and prints the crate name if the features map is non-empty

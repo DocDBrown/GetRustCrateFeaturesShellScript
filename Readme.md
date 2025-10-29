@@ -10,5 +10,3 @@ example usage "./crates-features.sh serde tokio anyhow tracing"
 4. Handle HTTP errors and timeouts. crates.io enforces polite crawling
 5. If max_version empty, call /api/v1/crates/${crate_name}/versions and pick the first non-yanked version’s .num.
 6. Ensure delay is not too short for crates.io’s crawler policy.
-
-## BATS files verify Shell-Script passess all tests

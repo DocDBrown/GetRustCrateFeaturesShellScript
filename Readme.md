@@ -1,5 +1,8 @@
 # Shell Script to check crates.io features
 
+
+[![CI](https://github.com/DocDBrown/GetRustCrateFeaturesShellScript/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DocDBrown/GetRustCrateFeaturesShellScript/actions/workflows/ci.yml)
+
 example usage "./crates-features.sh serde tokio anyhow tracing"
 
 ## Created so you can check what features there are for the crates you need

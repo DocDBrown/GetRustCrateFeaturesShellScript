@@ -1,0 +1,57 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6 # :contentReference[oaicite:0]{index=0}
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0 # :contentReference[oaicite:1]{index=1}
+
+  bats:
+    name: Bats (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6 # :contentReference[oaicite:2]{index=2}
+
+      - name: Setup Bats and bats libs
+        id: setup-bats
+        uses: bats-core/bats-action@3.0.1 # :contentReference[oaicite:3]{index=3}
+
+      - name: Run Bats tests
+        env:
+          BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
+          TERM: xterm
+        run: |
+          set -euo pipefail
+          if [[ -d "test" || -d "tests" ]]; then
+            args=()
+            [[ -d "test"  ]] && args+=("test")
+            [[ -d "tests" ]] && args+=("tests")
+            bats -r "${args[@]}"
+          else
+            echo "No ./test or ./tests directory found (expected Bats tests there)."
+            exit 1
+          fi
